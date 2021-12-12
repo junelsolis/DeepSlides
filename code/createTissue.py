@@ -6,12 +6,14 @@ import numpy as np
 import time
 import os
 import glob
-from scipy.misc import imread
+# from scipy.misc import imread
+import skimage.io as imread
 from  models import create_generator
 import argparse
 #version 2.0 generated on 3/16/2018
 
-sess = tf.InteractiveSession()
+# sess = tf.InteractiveSession()
+sessoin = tf.compat.v1.InteractiveSession()
 debug=True
 
 parser = argparse.ArgumentParser()
@@ -48,11 +50,11 @@ def main():
     searchPath="Testdata/*.png"
     #Please use same patchsize for all images.
     patchSize=a.scale_size
-    inputs = tf.placeholder(tf.float32, [1, patchSize, patchSize, 3])
-    with tf.variable_scope("generator") as scope:
+    inputs = tf.compat.v1.placeholder(tf.float32, [1, patchSize, patchSize, 3])
+    with tf.compat.v1.variable_scope("generator") as scope:
         out_channels = 3
         outputs = create_generator(inputs, out_channels)
-    saver = tf.train.Saver()
+    saver = tf.compat.v1.train.Saver()
     saver.restore(sess, "artificialKi67/compact.ckpt")
     files = glob.glob(searchPath)
     print (files)
